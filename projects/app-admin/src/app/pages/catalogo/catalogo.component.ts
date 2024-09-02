@@ -80,7 +80,6 @@ export class CatalogoComponent implements OnInit,OnDestroy{
   }
 
   public actualizarCatalogo(catalogo:Catalogo){
-    console.log('act');
     let catalogoAct={...catalogo};
     const dialog=this.dialog.open(CatalogoDialogComponent,{data:catalogoAct});
 
@@ -95,7 +94,6 @@ export class CatalogoComponent implements OnInit,OnDestroy{
   }
 
   public eliminarCatalogo(catalogo:Catalogo){
-    console.log('elm');
 
     Swal.fire({
       text:`Eliminar rol ${catalogo.name}?`,
@@ -114,7 +112,6 @@ export class CatalogoComponent implements OnInit,OnDestroy{
           Swal.fire('Eliminado','Catalogo eliminado correctamente', 'success');
           this.catalogos=this.catalogos.filter(r=>r.id!=catalogo.id);
           this.dataSource.data=this.catalogos;
-          console.log(this.catalogos);
         });
         
       }

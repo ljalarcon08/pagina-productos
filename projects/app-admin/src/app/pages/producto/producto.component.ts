@@ -66,7 +66,6 @@ export class ProductoComponent implements OnInit,OnDestroy{
 
   private cargaPagina(nroPagina:number,largo:number){
     this.productoService.getPaginaProducto(nroPagina,largo).subscribe((resp:any)=>{
-      console.log(resp);
       this.datasource=new MatTableDataSource(resp.productos);
       this.totalReg=resp.totalRegistros;
     });
@@ -97,14 +96,11 @@ export class ProductoComponent implements OnInit,OnDestroy{
   }
 
   public actualizarProducto(producto:Producto){
-    console.log(producto);
     let productoAct={...producto};
-    console.log(productoAct);
     const dialog=this.dialog.open(ProductoDialogComponent,{data:{producto:productoAct,catalogos:this.catalogos}});
 
     dialog.afterClosed().subscribe(producto=>{
       if(producto){
-        console.log(producto);
         this.productoService.actualizarElement(producto,producto.id).subscribe(resp=>{
           Swal.fire('Actualizar Producto','Producto actualizado exitosamente','success');
           this.cargaPagina(this.paginaActual,this.pageSize);
@@ -114,7 +110,6 @@ export class ProductoComponent implements OnInit,OnDestroy{
   }
 
   public eliminarProducto(producto:Producto){
-    console.log(producto);
     Swal.fire({
       text:`Eliminar producto ${producto.name}?`,
       showDenyButton: true,

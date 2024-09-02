@@ -19,15 +19,10 @@ export class NavComponent implements OnInit,OnDestroy,OnChanges{
   public cambioToken:Subscription=Subscription.EMPTY;
 
   constructor(private libService:LibAuthService,private router:Router,private usuarioService:UsuarioService){
-    console.log(libService.getMessage());
     this.rolAdmin=libService.tieneRol('ROLE_ADMIN');
-    console.log('roladmin');
-    console.log(this.rolAdmin);
   }
   ngOnChanges(changes: SimpleChanges): void {
     const usuario=changes['usuario'].currentValue;
-    console.log('usuarioCambio');
-    console.log(usuario);
   }
   ngOnDestroy(): void {
     this.cambioToken.unsubscribe;

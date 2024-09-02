@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit,OnChanges,OnDestroy{
       this.libAuthService.checkToken()
       .pipe(switchMap(resp=>{
         if(resp.valid){
-          console.log(resp.valid);
           return this.usuarioService.getUsuarioByEmail(email);
         }
         else{
@@ -69,15 +68,12 @@ export class LoginComponent implements OnInit,OnChanges,OnDestroy{
       const email=this.libAuthService.getEmail();
       this.usuarioService.getUsuarioByEmail(email).subscribe(resp=>{
         this.usuario=resp[0];
-        console.log(this.usuario);
       });
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.usuario=changes['usuario'].currentValue;
-    console.log('login changes');
-    console.log(this.usuario);
     if(this.libAuthService.getToken() && this.usuario.email){
       this.loginOk=true;
     }
@@ -92,14 +88,11 @@ export class LoginComponent implements OnInit,OnChanges,OnDestroy{
     this.actDatos=false;
 		this.offCanvas=this.offcanvasService.open(content);
     this.offCanvas.closed.subscribe(resp=>{
-      console.log('respuesta cierre canvas');
-      console.log(resp);
       if(resp){
         this.usuario=resp;
         this.loginOk=true;
       }
       else{
-        console.log('sin datos');
         this.usuario=new Usuario(1,'','','');
         this.loginOk=false;
       }
@@ -117,17 +110,12 @@ export class LoginComponent implements OnInit,OnChanges,OnDestroy{
     this.loginOk=true;
 		this.offCanvas=this.offcanvasService.open(content);
     this.offCanvas.closed.subscribe(resp=>{
-      console.log('respuesta cierre canvas');
-      console.log(resp);
       this.usuario=new Usuario(1,'','','');
       this.loginOk=false;
     });
   }
 
   public abrirModal(usuario:Usuario){
-    console.log('AbrirModal');
-    console.log(usuario);
-    console.log(usuario.imagen);
     this.imagenService.abrirModal('usuario',usuario.id+'',usuario.imagen);
   }
 

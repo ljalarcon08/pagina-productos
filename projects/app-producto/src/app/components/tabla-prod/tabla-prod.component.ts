@@ -42,7 +42,6 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
 
   ngOnInit(): void {
     this.cambiaToken=this.libService.cambioToken.subscribe(resp=>{
-      console.log('cambia TOK tabla prod');
       if(resp){
         if(this.libService.getToken()){
           this.loginOk=true;
@@ -61,12 +60,10 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
     }
     if(changes['productos']){
       this.productos=changes['productos'].currentValue;
-      console.log(this.productos);
     }
     if(changes['catalogos']){
       this.catalogos=changes['catalogos'].currentValue;
       this.catalogosAnt=[...this.catalogos];
-      console.log(this.catalogos);
     }
     if(changes['isCatPage']){
       this.isCatPage=changes['isCatPage'].currentValue;
@@ -74,7 +71,6 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
   }
 
   ngOnDestroy(): void {
-    console.log('on destroy');
     this.cambiaToken.unsubscribe();
   }
 
@@ -86,7 +82,6 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
 
   public cargaCarro(){
     const email=this.libService.getEmail();
-    console.log('cargaCarro');
     this.carroService.getCarroEmail(email)
     .pipe(switchMap(carro=>{
       if(carro && carro.productos){
@@ -103,18 +98,13 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
 
   public actualizaCarro(carro:Carro){
     let productoSav=carro.productos!;
-    console.log(carro.productos);  
-    console.log(this.productoCarro);
     this.productoCarro.forEach(producto=>{
       let index=productoSav.findIndex(prod=>producto.id===prod.id);
-      console.log(index);
       if(index>-1){
-        console.log('index');
         let cantidad=productoSav[index].cantidad!;
         productoSav[index].cantidad=cantidad+1;
       }
       else{
-        console.log('no index');
         productoSav.push(producto);
       }
     });
@@ -143,18 +133,11 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
 
   public abrir(content: TemplateRef<any>,producto:Producto) {
     this.productoSeleccionado=producto;
-    console.log(content);
     this.agregarProductoCarro(producto);
 		this.offCanvas=this.offcanvasService.open(content);
     this.offCanvas.closed.subscribe(resp=>{
-      console.log('respuesta cierre canvas');
-      console.log(resp);
       if(resp){
-        console.log(resp);
         this.productoCarro=resp;
-      }
-      else{
-        console.log('sin datos');
       }
     });
   }
@@ -177,7 +160,6 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
   }
 
   public cerrar(){
-    console.log('cerrar');
     this.offCanvas.dismiss();
   }
 
@@ -195,12 +177,10 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
 
 
   public buscar(){
-    console.log('buscar');
     const textoControl=this.buscarForm.get('texto');
     if(textoControl){
       const textoBuscado=textoControl.value;
       if(textoBuscado){
-        console.log(textoBuscado);
         this.cargarProductoPorNombre(textoBuscado);
       }
       else{

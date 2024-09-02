@@ -23,11 +23,9 @@ export class ImagenModalComponent {
   }
 
   public revisarImagen(event:any){
-    console.log('revisarImagen');
     this.imgCheck=event.target.value;
     if(this.imagenService.revisaTipoImagen(event.target.value)){
       this.imgTemp=this.imgCheck;
-      console.log(event.target.value);
     }
     else{
       event.target.value='';
@@ -35,16 +33,11 @@ export class ImagenModalComponent {
   }
 
   public cambiarImagen(){
-    console.log('cambiarImagen');
-    console.log(this.imgCheck);
     this.imgTemp=this.imgCheck;
     this.imagen=this.imgCheck;
-    console.log(this.imagen);
   }
 
   public subirImagen(){
-    console.log('subir imagen');
-    console.log(this.imagen);
     const id=this.imagenService.id;
     const tipo=this.imagenService.tipo;
     if(tipo==='usuario'){

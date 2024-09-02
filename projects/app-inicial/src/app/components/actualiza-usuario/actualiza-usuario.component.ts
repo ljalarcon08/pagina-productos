@@ -27,7 +27,6 @@ export class ActualizaUsuarioComponent implements OnChanges{
 
 
   constructor(private formBuilder:FormBuilder,private usuarioService:UsuarioService){
-    console.log(this.usuario);
     this.actualizarForm.controls['email'].disable();
   }
 
@@ -43,7 +42,6 @@ export class ActualizaUsuarioComponent implements OnChanges{
   public actualizarUsuario(){
     this.submitM=true;
     if(!this.actualizarForm.invalid){
-      console.log('OK es actualizable');
       const name:string=this.actualizarForm.get('nombre')!.value;
       const email=this.actualizarForm.get('email')!.value;
       const password=this.actualizarForm.get('password')!.value;

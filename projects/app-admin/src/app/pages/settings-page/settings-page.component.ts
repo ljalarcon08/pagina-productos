@@ -50,13 +50,11 @@ export class SettingsPageAdminComponent implements OnInit{
         this.totalReg=this.roles.length;
         this.dataSource=new MatTableDataSource(this.roles);
         this.dataSource.paginator=this.paginator;
-        console.log(this.roles);
       });
     }
   }
 
   public actualizarRol(rol:Rol){
-    console.log('actualizar');
     let rolAct={...rol};
     const dialog=this.dialog.open(RolDialogComponent,{data:rolAct});
 
@@ -71,7 +69,6 @@ export class SettingsPageAdminComponent implements OnInit{
   }
 
   public eliminarRol(rol:Rol){
-    console.log('eliminar');
     Swal.fire({
       text:`Eliminar rol ${rol.name}?`,
       showDenyButton: true,
@@ -89,7 +86,6 @@ export class SettingsPageAdminComponent implements OnInit{
           Swal.fire('Eliminado','Usuario eliminado correctamente', 'success');
           this.roles=this.roles.filter(r=>r.id!=rol.id);
           this.dataSource.data=this.roles;
-          console.log(this.roles);
         });
         
       }

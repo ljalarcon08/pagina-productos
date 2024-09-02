@@ -72,7 +72,6 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
   }
 
   public cambiaPagina(evento:any){
-    console.log(evento);
     this.paginaActual=evento.pageIndex;
     this.pageSize=evento.pageSize;
     this.cargarPagina(evento.pageIndex,evento.pageSize);
@@ -85,7 +84,6 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
 
     dialog.afterClosed().subscribe(usuario=>{
       if(usuario){
-        console.log(usuario);
         this.usuarioService.actualizarUsuario(usuario).subscribe(resp=>{
           Swal.fire('Actualizacion','Usuario actualizado correctamente','success');
           this.cargarPagina(this.paginaActual,this.pageSize);
@@ -95,7 +93,6 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
   } 
 
   public eliminarUsuario(usuario:Usuario){
-    console.log(usuario);
 
     Swal.fire({
       text:`Eliminar usuario ${usuario.name}?`,
@@ -114,7 +111,6 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
           Swal.fire('Eliminado','Usuario eliminado correctamente', 'success');
           this.usuarios=this.usuarios.filter(u=>u.id!=usuario.id);
           this.dataSource.data=this.usuarios;
-          console.log(this.usuarios);
         });
         
       }
@@ -122,9 +118,6 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
   }
 
   public abrirModal(usuario:Usuario){
-    console.log('AbrirModal');
-    console.log(usuario);
-    console.log(usuario.imagen);
     this.imagenService.abrirModal('usuario',usuario.id+'',usuario.imagen);
   }
 

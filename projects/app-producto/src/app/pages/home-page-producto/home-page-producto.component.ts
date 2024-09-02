@@ -20,10 +20,8 @@ export class HomePageProductoComponent implements OnInit{
 
   constructor(private catalogoService:CatalogoService,private productoService:ProductoService,private router:Router){
     this.pxp=[];
-    console.log('constructor||||');
     const nav=this.router.getCurrentNavigation();
     if(nav){
-      console.log(nav.extras);
       if(nav.extras.state){
         const state=nav.extras.state as {
           productos:Producto[]
@@ -45,10 +43,5 @@ export class HomePageProductoComponent implements OnInit{
       this.pxp[indexCat]=resp;
     });
   }
-
-  public cargaProductos(event:any){
-    console.log(event);
-  }
-
 
 }

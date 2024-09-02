@@ -30,10 +30,8 @@ export class LibAuthService {
    }
 
   public login(username:string,password:string){
-    console.log('login');
     return this.http.post(`${this.URL}/login`,{username,password})
       .pipe(tap((resp:any)=>{
-        console.log(resp);
         localStorage.setItem('token',resp.jwt);
         this.email=username;
         this.cambioToken.emit('true');
@@ -50,7 +48,6 @@ export class LibAuthService {
     if(this.getToken()){
       const token:string=this.getToken()!;
       const decodeTk=this.jwtHelper.decodeToken(token);
-      console.log(decodeTk);
       return decodeTk.sub;
     }
     return '';
@@ -70,7 +67,6 @@ public logout(){
  }
 
  public quitarToken(){
-  console.log('quitartoken');
   localStorage.removeItem('token');
   this.cambioToken.emit('true');
  }
@@ -79,8 +75,6 @@ public logout(){
   const token=this.getToken();
   if(token){
     const decodedToken=this.decoder.decodeToken(token);
-    console.log(decodedToken);
-    console.log(decodedToken.roles);
     return decodedToken.roles.includes(rol);
   }
   return false;

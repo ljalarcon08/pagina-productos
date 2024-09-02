@@ -47,7 +47,6 @@ export class ProductoDialogComponent implements OnInit{
       }
       this.data.producto.idCatalogo=this.productoForm.get('catalogo')!.value!;
     }
-    console.log(this.data.producto);
 
     return this.data.producto;
   }

@@ -37,7 +37,6 @@ export class UsuarioDialogComponent implements OnInit{
     this.usuarioService.getRoles().subscribe(resp=>{
       this.roles=resp;
       this.cargaRolesUsuario();
-      console.log(resp);
     });
   }
 
@@ -51,8 +50,6 @@ export class UsuarioDialogComponent implements OnInit{
   }
 
   public cambiaRoles(event:any){
-    console.log(event);
-    console.log(event.value);
     const listaRoles:number[]=event.value;
     if(listaRoles.length===0){
       this.usuario.roles=[];
