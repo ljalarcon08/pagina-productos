@@ -1,0 +1,34 @@
+<div>
+    <h1 *ngIf="!data.producto.id" mat-dialog-title>Crear Producto</h1>
+    <h1 *ngIf="data.producto.id" mat-dialog-title>Actualizar Producto</h1>
+    <div mat-dialog-content>
+        <div>
+            <form class="dialog-content" autocomplete="off" [formGroup]="productoForm">
+                <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input matInput type="text" formControlName="nombre">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Precio</mat-label>
+                    <input matInput type="number" formControlName="precio">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Marca</mat-label>
+                    <input matInput type="text" formControlName="marca">
+                </mat-form-field>            
+                <mat-form-field *ngIf="data.catalogos">
+                    <mat-label>Catalogo</mat-label>
+                    <mat-select placeholder="Catalogo" formControlName="catalogo">
+                        <mat-option *ngFor="let catalogo of data.catalogos" [value]="catalogo.id">
+                            {{catalogo.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button [disabled]="productoForm.invalid" [mat-dialog-close]="datosProducto()">Guardar</button>
+        <button mat-button (click)="cerrar()">Cancelar</button>
+    </div>
+</div>

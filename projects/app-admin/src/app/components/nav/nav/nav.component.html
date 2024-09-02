@@ -1,0 +1,15 @@
+<mat-nav-list class="list-horizontal" *ngIf="rolAdmin">
+    <mat-list-item>
+        <a routerLink='/admin/home' routerLinkActive="router-link-active"><mat-icon>admin_panel_settings</mat-icon><span class="navTitle">Usuarios</span></a>
+    </mat-list-item>
+    <mat-list-item>
+        <a routerLink='/admin/settings'><mat-icon>admin_panel_settings</mat-icon><span class="navTitle">Roles</span></a>
+    </mat-list-item>
+    <mat-list-item>
+        <a routerLink='/admin/producto'><mat-icon>admin_panel_settings</mat-icon><span class="navTitle">Productos</span></a>
+    </mat-list-item>
+    <mat-list-item>
+        <a routerLink='/admin/catalogo'><mat-icon>admin_panel_settings</mat-icon><span class="navTitle">Catálogos</span></a>
+    </mat-list-item>
+</mat-nav-list> 
+<router-outlet />

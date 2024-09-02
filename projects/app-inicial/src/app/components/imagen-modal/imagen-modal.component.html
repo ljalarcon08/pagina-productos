@@ -1,0 +1,52 @@
+<div class="fondo-modal-imagen animated fadeIn fast" [class.oculto]="imagenService.ocultarModal">
+
+    <div class="modal fade show" 
+        tabindex="-1" 
+        role="dialog" 
+        style="display: block;">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cargar imagen</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <p class="text-center"><b>Imagen actual</b></p>
+                        </div>
+                        <div class="col">
+                            <p class="text-center"><b class="text-center">Imagen nueva</b></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <img *ngIf="imagenService.revisaTipoImagen(imagenService.img)" [src]="imagenService.img" class="img-avatar" alt="Imagen Actual" title="Imagen Actual">
+                            <img *ngIf="!imagenService.revisaTipoImagen(imagenService.img)" src="noimg.jpg" class="img-avatar">
+                        </div>
+                        <div class="col">
+                            <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar" alt="Imagen Nueva" title="Imagen Nueva">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" class="text-center">
+                <input (change)="revisarImagen($event)" type="url" placeholder="Ingrese url de imagen" [(ngModel)]="imgCheck"/>
+                <button disabled="!imgCheck" class="btn btn-secondary btn-sm" (click)="cambiarImagen()">Ver</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" 
+                        class="btn btn-default" 
+                        data-dismiss="modal"
+                        (click)="cerrarModal()">
+                    Cancelar
+                </button>
+                <button type="button" 
+                        class="btn btn-primary"
+                        (click)="subirImagen()">Actualizar foto</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

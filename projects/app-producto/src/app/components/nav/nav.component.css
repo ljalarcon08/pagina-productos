@@ -1,0 +1,25 @@
+.list-horizontal{
+    padding: 2;
+    background-color: aquamarine;
+}
+
+.list-horizontal mat-list-item{
+    display: inline-block;
+    height: auto;
+    width: auto;
+    cursor: pointer;
+    color:black;
+}
+
+.navTitle{
+    color:black;
+}
+
+.inline-list {
+    display: flex;
+    padding: 2;
+}
+
+.pointer{
+    cursor: pointer;
+}

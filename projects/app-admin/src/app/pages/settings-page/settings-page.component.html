@@ -1,0 +1,60 @@
+<app-nav></app-nav>
+<mat-card class="tarjeta" *ngIf="rolAdmin">
+    <mat-card-header>
+      <mat-card-subtitle><h5>Roles</h5></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <button type="button" class="btn btn-primary" (click)="crearRol()">Crear</button>
+        <div class="tableCont">
+        <table mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>
+                  Id 
+              </th>
+            <td mat-cell *matCellDef="let element">
+                  {{ element.id }}
+              </td>
+        </ng-container>
+        
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                      Name 
+                  </th>
+                <td mat-cell *matCellDef="let element">
+                      {{ element.name }}
+                  </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actualizar">
+              <th mat-header-cell *matHeaderCellDef>
+                    Actualizar 
+                </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon class="iconAE" *ngIf="!element.google" (click)="actualizarRol(element)">sync</mat-icon>
+                </td>
+          </ng-container>
+
+          <ng-container matColumnDef="eliminar">
+            <th mat-header-cell *matHeaderCellDef>
+                  Eliminar 
+              </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-icon class="iconAE" *ngIf="!element.google" (click)="eliminarRol(element)">delete_forever</mat-icon>
+              </td>
+        </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        
+        <mat-paginator [pageSizeOptions]="pageSizeOptions" 
+                       [showFirstLastButtons]="true" 
+                       [pageSize]="pageSize"
+                       [length]="totalReg"
+                       >
+        </mat-paginator>
+      </div>
+    </div>
+    </mat-card-content>
+  </mat-card>
