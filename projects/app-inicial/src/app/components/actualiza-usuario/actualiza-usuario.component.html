@@ -1,0 +1,42 @@
+<section class="login-register login-sidebar">
+    <div class="login-box card">
+        <div class="card-body">
+            <form *ngIf="!cambioOk" class="form-horizontal form-material" autocomplete="off" [formGroup]="actualizarForm" (ngSubmit)="actualizarUsuario()">
+                <div class="form-group m-t-40">
+                    <div class="col-xs-12">
+                        <label class="label-type">Nombre</label>
+                        <input class="form-control" type="nombre" placeholder="Nombre" formControlName="nombre">
+                        <span class="input-error" *ngIf="campoError('email')">Favor ingrese nombre</span>
+                    </div>
+                </div>
+                <div class="form-group m-t-40">
+                    <div class="col-xs-12">
+                        <label class="label-type">Email</label>
+                        <input class="form-control disabled-input" readonly="readonly"  type="email" placeholder="Email" formControlName="email">
+                        <span class="input-error" *ngIf="campoError('email')">Favor ingrese email o formato incorrecto</span>
+                    </div>
+                </div>
+                <div class="form-group m-t-40">
+                    <div class="col-xs-12">
+                        <label class="label-type">Nueva contraseña</label>
+                        <input class="form-control" type="password" placeholder="Contraseña" formControlName="password">
+                        <span class="input-error" *ngIf="campoError('password')">Favor ingrese contraseña o contraseñas no coinciden</span>
+                    </div>
+                </div>
+                <div class="form-group m-t-40">
+                    <div class="col-xs-12">
+                        <label class="label-type">Repetir nueva contraseña</label>
+                        <input class="form-control" type="password" placeholder="Repita Contraseña" formControlName="password2">
+                        <span class="input-error" *ngIf="campoError('password2')">Favor ingrese contraseña o contraseñas no coinciden</span>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-success" type="submit">Ingresar</button>
+                </div>
+                <!--div class="text-end">
+                    <button type="button" class="btn btn-outline-secondary" (click)="offcanvas.close('Close click')">Close</button>
+                </div-->
+            </form>
+        </div>
+    </div>
+</section>

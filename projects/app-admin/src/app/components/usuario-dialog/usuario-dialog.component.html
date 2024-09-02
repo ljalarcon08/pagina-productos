@@ -1,0 +1,29 @@
+<div>
+    <h1 mat-dialog-title>Actualizar Usuario</h1>
+    <div mat-dialog-content>
+        <div>
+            <form class="dialog-content" autocomplete="off" [formGroup]="usuarioForm">
+                <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input matInput type="text" formControlName="nombre">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email">
+                </mat-form-field>
+                <mat-form-field *ngIf="usuario.roles && roles">
+                    <mat-label>Roles</mat-label>
+                    <mat-select placeholder="Roles" multiple formControlName="roles" (selectionChange)="cambiaRoles($event)">
+                        <mat-option *ngFor="let rol of roles" [value]="rol.id">
+                            {{rol.name}}
+                        </mat-option>
+                    </mat-select>                    
+                </mat-form-field>
+            </form>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button [disabled]="usuarioForm.invalid" [mat-dialog-close]="datosUsuario()">Guardar</button>
+        <button mat-button (click)="cerrar()">Cancelar</button>
+    </div>
+</div>

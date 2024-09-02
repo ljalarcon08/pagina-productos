@@ -1,0 +1,36 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+      <mat-toolbar color="primary">
+        <button mat-button><mat-icon>menu</mat-icon>Menu</button>
+      </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink='/producto/home' routerLinkActive="router-link-active"><mat-icon>shopping_bag</mat-icon> <span class="opc">Producto</span></a>
+      <a mat-list-item *ngIf="rolAdmin" routerLink='/admin/home'><mat-icon>admin_panel_settings</mat-icon><span class="opc">Admin</span></a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      @if (isHandset$ | async) {
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+      }
+      <div class="row">
+        <div class="col float-start col-sm-11 logo">
+          <a routerLink='/producto/home'>Mercado Genérico     <mat-icon>house</mat-icon></a>
+        </div>
+        <div class="col col-sm-1 position-absolute top-50 end-0">
+          <app-login [usuario]="usuario"></app-login>
+        </div>
+      </div>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

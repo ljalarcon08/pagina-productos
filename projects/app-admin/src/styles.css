@@ -1,0 +1,39 @@
+.tarjeta {
+    max-width: 100%;
+    background:
+    linear-gradient(135deg, #ECEDDC 25%, transparent 25%) -50px 0,
+    linear-gradient(225deg, #ECEDDC 25%, transparent 25%) -50px 0,
+    linear-gradient(315deg, #ECEDDC 25%, transparent 25%),
+    linear-gradient(45deg, #ECEDDC 25%, transparent 25%);
+  background-color:aliceblue;
+  }
+  
+.tarjeta-image {
+    background-size: cover;
+}
+
+.iconAE{
+  cursor: pointer;
+}
+
+.avatar {
+  border-radius: 100%;
+  width: 30px;
+}
+
+.prodImg {
+  width: 75px;
+}
+
+.mat-mdc-header-row {
+  background-color: #77A9E6;
+}
+
+.tableCont{
+  width: 100%;
+  overflow-x: auto;
+}
+
+.mat-mdc-row:nth-child(even){
+  background-color: #EDF3FC;
+}

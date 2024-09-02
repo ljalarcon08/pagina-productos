@@ -1,0 +1,18 @@
+<div>
+    <h1 *ngIf="!rol.id" mat-dialog-title>Crear Rol</h1>
+    <h1 *ngIf="rol.id" mat-dialog-title>Actualizar Rol</h1>
+    <div mat-dialog-content>
+        <div >
+            <form class="dialog-content" autocomplete="off" [formGroup]="rolForm">
+                <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input matInput [(ngModel)]="rol.name" type="text" formControlName="nombre">
+                </mat-form-field>
+            </form>                
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button [disabled]="rolForm.invalid" [mat-dialog-close]="cargarRol()">Guardar</button>
+        <button mat-button (click)="cerrar()">Cancelar</button>
+    </div>
+</div>
