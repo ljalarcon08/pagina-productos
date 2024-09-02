@@ -13,39 +13,39 @@ Se compone de 4 sub proyectos:
 ##Ejecutar proyecto
 
 1. Luego de ejecutar los proyectos String boot:
-    -microservicio-eureka
-    -microservicio-usuario
-    -microservicio-producto
-    -microservicio-gateway
+    - microservicio-eureka
+    - microservicio-usuario
+    - microservicio-producto
+    - microservicio-gateway
 
 2. Abri consola
 3. Comando > npm run start:appInicial
 4. Desde navegador ingresar a http://localhost:4200
 
-##AppInicial
+## AppInicial
 
 Sub proyecto que contiene los componentes iniciales del proyecto, usa lazy load para cargar los demas subproyectos.
 
-##AppAdmin
+## AppAdmin
 
 Contiene la Creacion, actualización y elminiacion de elementos mostrados en página producto.
 
-##AppProducto
+## AppProducto
 
 Contiene la página de productos y manejo de carros de productos.
 
-##lib-auth
+## lib-auth
 
 Contiene clases y servicios usados en el resto de sub proyectos
 
-##Dependencias:
+## Dependencias:
 
--Angular Material
--Bootstrap
--ng-bootstrap
--SweetAlert2
--angular jwt
--hammerjs
+- Angular Material
+- Bootstrap
+- ng-bootstrap
+- SweetAlert2
+- angular jwt
+- hammerjs
 
 
 
