@@ -1,0 +1,32 @@
+<ng-template #content let-offcanvas>
+	<div class="offcanvas-header">
+		<h5 *ngIf="!actDatos" class="offcanvas-title">Ingresar / Registrarte</h5>
+        <h5 *ngIf="actDatos" class="offcanvas-title">Actualizar datos</h5>
+		<button type="button" class="btn-close" aria-label="Close" (click)="cerrar()"></button>
+	</div>
+	<div class="offcanvas-body">
+    <app-inicio-sesion *ngIf="!this.loginOk" [offCanvas]="offCanvas"></app-inicio-sesion>
+    <app-actualiza-usuario *ngIf="this.actDatos" [offCanvas]="offCanvas" [usuario]="usuario"></app-actualiza-usuario>
+    </div>
+</ng-template>
+  <a *ngIf="!this.loginOk" class="btn btn-sm btn-outline-seconday cursor" (click)="abrir(content)">
+    <img src="no-avatar.jpg" class="avatar-img">
+  </a>
+  <a *ngIf="this.loginOk" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <img *ngIf="imagenService.revisaTipoImagen(usuario.imagen)" class="avatar-img" [src]="usuario.imagen"> 
+    <img *ngIf="!imagenService.revisaTipoImagen(usuario.imagen)" class="avatar-img" src="noimg.jpg"> 
+  </a>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <ul class="dropdown-menu dropdown-menu-dark">
+        <li><a class="dropdown-item disabled"><small>Bienvenido {{usuario.name}}</small></a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item cursor" (click)="actualizarDatos(content)">Actualizar Datos</a></li>
+        <li><a class="dropdown-item cursor" (click)="abrirModal(usuario)">Actualizar Avatar</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item cursor" (click)="cerrarSesion()">Cerrar Sesión</a></li>
+      </ul>
+    </div>
+  </nav>
+  <app-imagen-modal></app-imagen-modal>
+  

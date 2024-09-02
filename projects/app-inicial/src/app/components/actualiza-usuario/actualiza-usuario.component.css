@@ -1,0 +1,119 @@
+.login-register {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100%;
+    width: 100%;
+    padding: 10% 0;
+    position: fixed; 
+}
+  
+.login-box {
+    margin: 0 auto; 
+}
+.login-box .footer {
+      left: 0px;
+      right: 0px; 
+}
+.login-box .social {
+      display: block;
+      margin-bottom: 30px; 
+}
+  
+#recoverform {
+    display: none; 
+}
+  
+.login-sidebar {
+    padding: 0px;
+    margin-top: 0px; 
+}
+
+.login-sidebar .login-box {
+      position: absolute;
+      height: 100%;
+      width: 100%; 
+      max-height: 450px;
+      max-width: 350px;
+}
+
+
+.form-control {
+        color: #67757c;
+        min-height: 38px;
+        display: initial; 
+}
+
+.form-group {
+    margin-bottom: 25px; 
+}
+
+
+
+.form-material .form-group {
+    overflow: hidden; 
+}
+
+.form-material .form-control {
+    background-color: transparent;
+    background-position: center bottom, center calc(100% - 1px);
+    background-repeat: no-repeat;
+    background-size: 0 2px, 100% 1px;
+    padding: 0;
+    -webkit-transition: background 0s ease-out 0s;
+    -o-transition: background 0s ease-out 0s;
+    transition: background 0s ease-out 0s; 
+}
+
+.form-material .form-control,
+.form-material .form-control.focus,
+.form-material .form-control:focus {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#398bf7), to(#398bf7)), -webkit-gradient(linear, left top, left bottom, from(#e9edf2), to(#e9edf2));
+  background-image: -webkit-linear-gradient(#398bf7, #398bf7), -webkit-linear-gradient(#e9edf2, #e9edf2);
+  background-image: -o-linear-gradient(#398bf7, #398bf7), -o-linear-gradient(#e9edf2, #e9edf2);
+  background-image: linear-gradient(#398bf7, #398bf7), linear-gradient(#e9edf2, #e9edf2);
+  border: 0 none;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  float: none; 
+}
+
+.form-horizontal label {
+    margin-bottom: 0px; 
+}
+
+.form-control {
+    border: 0px;
+    border-radius: 0px;
+    padding-left: 0px;
+    border-bottom: 1px solid #f6f9ff; 
+}
+
+.form-control:focus {
+      border-bottom: 1px solid #398bf7; 
+}
+
+.input-error{
+    color:red;
+    font-size: small;
+}
+
+.avatar-img{
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.disabled-input{
+    color: silver;
+}
+
+.label-type{
+    font-size: small;
+    color:#67757c;
+}

@@ -1,0 +1,90 @@
+<app-nav></app-nav>
+<mat-card class="tarjeta" *ngIf="rolAdmin">
+    <mat-card-header>
+      <mat-card-subtitle><h5>Productos</h5></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="tableCont">
+          <button type="button" class="btn btn-primary" (click)="crearProducto()">Crear</button>
+          <div>
+            <table mat-table [dataSource]="datasource">
+                <ng-container matColumnDef="img">
+                    <th mat-header-cell *matHeaderCellDef>
+                         Imagen
+                      </th>
+                    <td mat-cell *matCellDef="let element">
+                      <img *ngIf="imagenService.revisaTipoImagen(element.img)" [src]="element.img" class="prodImg iconAE" (click)="abrirModal(element)">
+                      <img *ngIf="!imagenService.revisaTipoImagen(element.img)" src="noimg.jpg" class="prodImg iconAE" (click)="abrirModal(element)">
+                      </td>
+                </ng-container>
+            
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>
+                          Name 
+                      </th>
+                    <td mat-cell *matCellDef="let element">
+                          {{ element.name }}
+                      </td>
+                </ng-container>
+            
+                <ng-container matColumnDef="prize">
+                    <th mat-header-cell *matHeaderCellDef>
+                          Precio 
+                      </th>
+                    <td mat-cell *matCellDef="let element">
+                          {{ element.prize | moneda }} 
+                      </td>
+                </ng-container>
+            
+                <ng-container matColumnDef="marca">
+                  <th mat-header-cell *matHeaderCellDef>
+                        Marca 
+                    </th>
+                  <td mat-cell *matCellDef="let element">
+                        {{ element.marca }} 
+                    </td>
+              </ng-container>
+
+                <ng-container matColumnDef="catalogo">
+                    <th mat-header-cell *matHeaderCellDef>
+                          Catalogo 
+                      </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.idCatalogo | buscaCatalogo:catalogos}}
+                      </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actualizar">
+                  <th mat-header-cell *matHeaderCellDef>
+                        Actualizar 
+                    </th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-icon class="iconAE" *ngIf="!element.google" (click)="actualizarProducto(element)">sync</mat-icon>
+                    </td>
+              </ng-container>
+
+              <ng-container matColumnDef="eliminar">
+                <th mat-header-cell *matHeaderCellDef>
+                      Eliminar 
+                  </th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-icon class="iconAE" *ngIf="!element.google" (click)="eliminarProducto(element)">delete_forever</mat-icon>
+                  </td>
+            </ng-container>
+            
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            
+            <mat-paginator [pageSizeOptions]="pageSizeOptions" 
+                           [showFirstLastButtons]="true" 
+                           [pageSize]="pageSize"
+                           [length]="totalReg"
+                           (page)="cambiaPagina($event)"
+                           >
+            </mat-paginator>
+        </div>
+      </div>
+        </mat-card-content>
+      </mat-card>
+<app-imagen-modal></app-imagen-modal>

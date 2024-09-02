@@ -1,0 +1,161 @@
+.img{
+    min-width: 90px;
+    width: 100%;
+    min-width: 110px;
+    width: 100%;
+}
+
+.card{
+    min-width: 100px;
+    width: 100%;
+    min-height: 150px;
+    height: 100%;
+}
+
+.price{
+    font-family:Source Sans Pro, sans-serif;
+    padding: 2px 8px;
+}
+
+.marca{
+    color:rgba(117, 117, 117, 0.774);
+    font-style: italic;
+    font-size: 14px;
+    padding: 2px 8px;
+}
+
+.nombre{
+    font-size: 16px;
+    padding: 2px 8px;
+    font-style: oblique;
+}
+
+.link{
+    float:inherit;
+    color:rgb(72, 84, 255);
+    
+    text-decoration: none;
+    font-family: Helvetica;
+}
+
+.link:hover{
+    float:inherit;
+    color:rgb(72, 84, 255);
+    
+    text-decoration: dashed;
+    font-family: Helvetica;
+}
+
+.title{
+    padding-top: 10px;
+}
+
+.boton{
+    height: 100%;
+    width: 100%;
+    padding: 1000px,100px,100px;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+.cont{
+    position: relative;
+    margin: auto 0 0;
+}
+
+.mat-card{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+  
+.mat-card-header {
+    flex-shrink: 0;
+}
+  
+.mat-card-content{
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.offC{
+    width: 750px;
+}
+
+:host ::ng-deep .offcanvas{
+    --bs-offcanvas-width: 750px;
+}
+
+.arrow {
+	--arrow-size: 1em;
+	--arrow-color: rgb(72, 84, 255);
+	--arrow-color-hover: rgba(46, 44, 44, 0.5);
+	position: relative;
+	display: inline-flex;
+	vertical-align: middle;
+	width: var(--arrow-size);
+	height: var(--arrow-size);
+	overflow: hidden;
+	
+	&::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		box-sizing: border-box;
+		display: inline-block;
+		width: calc( var(--arrow-size) * .7071);
+		height: calc( var(--arrow-size) * .7071);
+		border-top: calc( var(--arrow-size) / 5 ) solid var(--arrow-color);
+		transition: all 150ms ease-in-out;
+	}
+	
+	&.left {
+		&::after {
+			left: calc( var(--arrow-size) / 5 );
+			border-left: calc( var(--arrow-size) / 5 ) solid var(--arrow-color);
+			transform-origin: top left;
+			rotate: -45deg;
+		}
+
+		&:hover::after {
+			box-shadow: calc( var(--arrow-size) / -8 ) calc( var(--arrow-size) / -8 ) 0 var(--arrow-color);
+		}
+	}
+
+	&.right {
+		&::after {
+			right: calc( var(--arrow-size) / 5 );
+			border-right: calc( var(--arrow-size) / 5 ) solid var(--arrow-color);
+			transform-origin: top right;
+			rotate: 45deg;
+		}
+
+		&:hover::after {
+			box-shadow: calc( var(--arrow-size) / 8 ) calc( var(--arrow-size) / -8 ) 0 var(--arrow-color);
+		}
+	}
+}
+
+a {
+	&:hover .arrow {
+		&.left,
+		&.right {
+			&::after {
+				border-color: var(--arrow-color-hover);
+			}
+		}
+
+		&.left {
+			&::after {
+				box-shadow: calc( var(--arrow-size) / -8 ) calc( var(--arrow-size) / -8 ) 0 var(--arrow-color);
+			}
+		}
+
+		&.right {
+			&::after {
+				box-shadow: calc( var(--arrow-size) / 8 ) calc( var(--arrow-size) / -8 ) 0 var(--arrow-color);
+			}
+		}
+	}
+}

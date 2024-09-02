@@ -1,0 +1,62 @@
+<app-nav></app-nav>
+<mat-card class="tarjeta" *ngIf="rolAdmin">
+    <mat-card-header>
+      <mat-card-subtitle><h5>Catálogo</h5></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <button type="button" class="btn btn-primary" (click)="crearCatalogo()">Crear</button>
+        <div class="tableCont">
+        <table mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="url">
+            <th mat-header-cell *matHeaderCellDef>
+                  Url
+              </th>
+            <td mat-cell *matCellDef="let element">
+                <img *ngIf="imagenService.revisaTipoImagen(element.url)" [src]="element.url" class="prodImg iconAE tarjeta-imagen" (click)="abrirModal(element)">
+                <img *ngIf="!imagenService.revisaTipoImagen(element.url)" src="noimg.jpg" class="prodImg iconAE tarjeta-imagen" (click)="abrirModal(element)">
+              </td>
+        </ng-container>
+        
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                      Nombre 
+                  </th>
+                <td mat-cell *matCellDef="let element">
+                      {{ element.name }}
+                  </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actualizar">
+              <th mat-header-cell *matHeaderCellDef>
+                    Actualizar 
+                </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon class="iconAE" *ngIf="!element.google" (click)="actualizarCatalogo(element)">sync</mat-icon>
+                </td>
+          </ng-container>
+
+          <ng-container matColumnDef="eliminar">
+            <th mat-header-cell *matHeaderCellDef>
+                  Eliminar 
+              </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-icon class="iconAE" *ngIf="!element.google" (click)="eliminarCatalogo(element)">delete_forever</mat-icon>
+              </td>
+        </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        
+        <mat-paginator [pageSizeOptions]="pageSizeOptions" 
+                       [showFirstLastButtons]="true" 
+                       [pageSize]="pageSize"
+                       [length]="totalReg"
+                       >
+        </mat-paginator>
+      </div>
+    </div>
+    </mat-card-content>
+  </mat-card>
+<app-imagen-modal></app-imagen-modal>
