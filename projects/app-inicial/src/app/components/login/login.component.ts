@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
 import { NgbOffcanvas, NgbOffcanvasConfig, NgbOffcanvasRef } from '@ng-bootstrap/ng-bootstrap';
 import { ImagenService } from '../../../../../lib-auth/src/lib/services/imagen.service';
 import { Usuario } from '../../../../../lib-auth/src/lib/models/usuario';
@@ -12,7 +12,7 @@ import { UsuarioService } from '../../services/usuario.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit,OnChanges,OnDestroy{
+export class LoginComponent implements OnInit,OnChanges{
 
   @Input() usuario:Usuario=new Usuario(1,'','','');
   public submitF=false;
@@ -77,10 +77,6 @@ export class LoginComponent implements OnInit,OnChanges,OnDestroy{
     if(this.libAuthService.getToken() && this.usuario.email){
       this.loginOk=true;
     }
-  }
-
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
   }
 
 

@@ -7,6 +7,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { NavComponent } from './nav.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
+import { Usuario } from '../../../../../lib-auth/src/lib/models/usuario';
+import { Component, Input } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 describe('NavComponent', () => {
   let component: NavComponent;
@@ -14,7 +20,7 @@ describe('NavComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [NavComponent],
+      declarations: [NavComponent,MockLoginComponent],
       imports: [
         NoopAnimationsModule,
         MatButtonModule,
@@ -22,7 +28,10 @@ describe('NavComponent', () => {
         MatListModule,
         MatSidenavModule,
         MatToolbarModule,
-      ]
+        RouterModule.forRoot([])
+      ],
+      providers:[provideHttpClient(),provideHttpClientTesting(),JwtHelperService
+        ,{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS }]
     }).compileComponents();
   }));
 
@@ -36,3 +45,11 @@ describe('NavComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-login',
+  template: ''
+})
+class MockLoginComponent {
+
+  @Input() usuario:Usuario=new Usuario(1,'','','');
+}

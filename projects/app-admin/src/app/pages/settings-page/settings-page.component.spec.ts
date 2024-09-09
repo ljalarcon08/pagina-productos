@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SettingsPageAdminComponent } from './settings-page.component';
+import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
 
 describe('SettingsPageComponent', () => {
   let component: SettingsPageAdminComponent;
@@ -8,7 +12,9 @@ describe('SettingsPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SettingsPageAdminComponent]
+      declarations: [SettingsPageAdminComponent,MockNavComponent],
+      providers:[provideHttpClient(),provideHttpClientTesting(),JwtHelperService
+        ,{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS }]
     })
     .compileComponents();
 
@@ -21,3 +27,10 @@ describe('SettingsPageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-nav',
+  template: ''
+})
+class MockNavComponent {
+
+}

@@ -18,6 +18,7 @@ import { InicioSesionComponent } from './components/inicio-sesion/inicio-sesion.
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActualizaUsuarioComponent } from './components/actualiza-usuario/actualiza-usuario.component';
 import { ImagenModalComponent } from './components/imagen-modal/imagen-modal.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ImagenModalComponent } from './components/imagen-modal/imagen-modal.com
     ImagenModalComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
