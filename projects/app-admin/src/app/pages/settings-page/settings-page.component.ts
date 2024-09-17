@@ -25,13 +25,14 @@ export class SettingsPageAdminComponent implements OnInit{
   public paginaActual=0;
   public rolAdmin=false;
   public cambiaToken:Subscription=Subscription.EMPTY;
+  public swal:any;
 
   @ViewChild(MatPaginator,{static:true}) 
   public paginator: MatPaginator=new MatPaginator(new MatPaginatorIntl(),ChangeDetectorRef.prototype);
   public dataSource: MatTableDataSource<any>=new MatTableDataSource();
 
-  constructor(private usuarioService:UsuarioService,private dialog:MatDialog,private libService:LibAuthService){
-
+  constructor(private usuarioService:UsuarioService,public dialog:MatDialog,public libService:LibAuthService){
+    this.swal=Swal;
   }
   ngOnInit(): void {
     this.cargaRoles();
@@ -61,7 +62,7 @@ export class SettingsPageAdminComponent implements OnInit{
     dialog.afterClosed().subscribe(rol=>{
       if(rol){
         this.usuarioService.actualizarRol(rol).subscribe(resp=>{
-          Swal.fire('Actualizar Rol','Rol actualizado correctamente','success');
+          this.swal.fire('Actualizar Rol','Rol actualizado correctamente','success');
           this.cargaRoles();
         });
       }
@@ -82,8 +83,8 @@ export class SettingsPageAdminComponent implements OnInit{
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usuarioService.eliminarUsuario(rol.id).subscribe(resp=>{  
-          Swal.fire('Eliminado','Usuario eliminado correctamente', 'success');
+        this.usuarioService.eliminiarRol(rol.id).subscribe(resp=>{  
+          this.swal.fire('Eliminado','Usuario eliminado correctamente', 'success');
           this.roles=this.roles.filter(r=>r.id!=rol.id);
           this.dataSource.data=this.roles;
         });
@@ -100,8 +101,8 @@ export class SettingsPageAdminComponent implements OnInit{
       if(rol){
         rol.id=null;
         this.usuarioService.crearRol(rol).subscribe(resp=>{
-          Swal.fire('Crear Rol','Rol creado correctamente','success');
           this.cargaRoles();
+          this.swal.fire('Crear Rol','Rol creado correctamente','success');
         });
       }
     });

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { NgbOffcanvas, NgbOffcanvasConfig, NgbOffcanvasRef } from '@ng-bootstrap/ng-bootstrap';
 import { ImagenService } from '../../../../../lib-auth/src/lib/services/imagen.service';
 import { Usuario } from '../../../../../lib-auth/src/lib/models/usuario';
@@ -14,12 +14,15 @@ import { UsuarioService } from '../../services/usuario.service';
 })
 export class LoginComponent implements OnInit,OnChanges{
 
+  @ViewChild('content', { read: TemplateRef, static: true })
+  public templateRef: TemplateRef<any>=TemplateRef.prototype;
   @Input() usuario:Usuario=new Usuario(1,'','','');
   public submitF=false;
   public actDatos=false;
   public loginOk=false;
   public offCanvas:NgbOffcanvasRef=NgbOffcanvasRef.prototype;
   public changeImg:Subscription=Subscription.EMPTY;
+  public swal:any;
   
 
   constructor(public config:NgbOffcanvasConfig,public offcanvasService:NgbOffcanvas,public imagenService:ImagenService,
@@ -27,6 +30,7 @@ export class LoginComponent implements OnInit,OnChanges{
 		config.position = 'end';
 		config.keyboard = false;
     config.scroll=true;
+    this.swal=Swal;
   }
 
 
@@ -63,7 +67,7 @@ export class LoginComponent implements OnInit,OnChanges{
     });
   }
 
-  public cargaUsuario(){
+  private cargaUsuario(){
     if(this.libAuthService.getToken()){
       const email=this.libAuthService.getEmail();
       this.usuarioService.getUsuarioByEmail(email).subscribe(resp=>{
@@ -116,7 +120,7 @@ export class LoginComponent implements OnInit,OnChanges{
   }
 
   public cerrarSesion(){
-    Swal.fire({
+    this.swal.fire({
       text:`¿Desea cerrar sesion?`,
       showDenyButton: true,
       confirmButtonText: 'Si',
@@ -127,7 +131,7 @@ export class LoginComponent implements OnInit,OnChanges{
         denyButton: 'order-3',
         title:'popTitle'
       },
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.isConfirmed) {
         this.loginOk=false;
         this.libAuthService.logout().subscribe(resp=>{

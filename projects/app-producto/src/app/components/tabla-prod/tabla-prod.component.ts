@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { Producto } from '../../../../../lib-auth/src/lib/models/producto';
 import { Catalogo } from '../../../../../lib-auth/src/lib/models/catalogo';
 import { NgbOffcanvas, NgbOffcanvasConfig, NgbOffcanvasRef } from '@ng-bootstrap/ng-bootstrap';
@@ -23,6 +23,9 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
   @Input() productos:Producto[][];
   @Input() catalogos:Catalogo[]=[];
   @Input() isCatPage:boolean=false;
+
+  @ViewChild('content', { read: TemplateRef, static: true })
+  public templateRef: TemplateRef<any>=TemplateRef.prototype;
   public offCanvas:NgbOffcanvasRef=NgbOffcanvasRef.prototype;
   public productoSeleccionado:Producto=Producto.prototype;
   public cambiaToken:Subscription=Subscription.EMPTY;
@@ -34,7 +37,7 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
   buscando:boolean=false;
   
   constructor(public config:NgbOffcanvasConfig,public offcanvasService:NgbOffcanvas,
-    private libService:LibAuthService,private carroService:CarroService,private router:Router,private formBuilder:FormBuilder,private productoService:ProductoService
+    public libService:LibAuthService,private carroService:CarroService,private router:Router,private formBuilder:FormBuilder,private productoService:ProductoService
   ){
     this.productos=[];
     config.backdrop='static';
@@ -117,6 +120,7 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
     return this.carroService.crearElement(carro);
   }
 
+
   public revisaTipoImagen(imagen:string){
     if(imagen){
       let url;
@@ -188,7 +192,7 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
         this.cargaProductosPorCatalogo();
       }
 
-    } 
+    }
   }
 
   public limpiarBusqueda(){

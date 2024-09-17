@@ -12,8 +12,10 @@ export class ImagenModalComponent {
   public imagen:string='';
   public imgTemp:any=null;
   public imgCheck:string='';
+  public swal:any;
 
   constructor(public imagenService:ImagenService,private usuarioService:UsuarioService){
+    this.swal=Swal;
   }
 
   public cerrarModal(){
@@ -53,8 +55,9 @@ export class ImagenModalComponent {
   }
 
   private respuestaCarga(resp:any){
-    this.imagenService.nuevaImagen.emit(this.imagen);
+    //this.imagenService.nuevaImagen.emit(this.imagen);
+    this.imagenService.emitirNuevaImagen(this.imagen);
     this.cerrarModal();
-    Swal.fire('Actualizar Imagen','Imagen actualizada correctamente','success');
+    this.swal.fire('Actualizar Imagen','Imagen actualizada correctamente','success');
   }
 }

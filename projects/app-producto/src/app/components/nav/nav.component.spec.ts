@@ -28,4 +28,8 @@ describe('NavComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('abrirCarro',()=>{
+    fixture.detectChanges();
+    expect(component.offCanvas).toBeDefined();
+  });
 });

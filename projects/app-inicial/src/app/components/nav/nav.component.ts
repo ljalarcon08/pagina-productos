@@ -5,7 +5,6 @@ import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { LibAuthService } from '../../../../../lib-auth/src/public-api';
 import { Router } from '@angular/router';
 import { Usuario } from '../../../../../lib-auth/src/lib/models/usuario';
-import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-nav',
@@ -18,7 +17,7 @@ export class NavComponent implements OnInit,OnDestroy,OnChanges{
   public rolAdmin=false;
   public cambioToken:Subscription=Subscription.EMPTY;
 
-  constructor(private libService:LibAuthService,private router:Router,private usuarioService:UsuarioService){
+  constructor(private libService:LibAuthService,private router:Router){
     this.rolAdmin=libService.tieneRol('ROLE_ADMIN');
   }
   ngOnChanges(changes: SimpleChanges): void {

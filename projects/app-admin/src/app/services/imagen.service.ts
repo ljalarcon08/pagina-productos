@@ -43,4 +43,8 @@ export class ImagenService {
     return false;
   }
 
+  public emitirNuevaImagen(imagen:string){
+    this.nuevaImagen.emit(imagen);
+  }
+
 }

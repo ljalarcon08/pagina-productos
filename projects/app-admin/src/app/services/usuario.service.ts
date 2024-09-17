@@ -16,16 +16,8 @@ export class UsuarioService {
 
    }
 
-   public getUsuarioById(idUsuario:number){
-    return this.http.get(`${this.URL_USUARIO}/${idUsuario}`,this.libService.getHeader());
-   }
-
    public getUsuarioByEmail(email:string):Observable<Usuario[]>{
     return this.http.get<Usuario[]>(`${this.URL_USUARIO}/email/${email}`,this.libService.getHeader());
-   }
-
-   public getUsuarios():Observable<Usuario[]>{
-    return this.http.get<Usuario[]>(`${this.URL_USUARIO}`,this.libService.getHeader());
    }
 
    public getPaginaUsuarios(pagina:number,largo:number){
@@ -34,10 +26,6 @@ export class UsuarioService {
 
    public getRolUsuario(idUsuario:number):Observable<Rol[]>{
     return this.http.get<Rol[]>(`${this.URL_USUARIO}/rol/${idUsuario}`,this.libService.getHeader());
-   }
-
-   public getRolesById(id:number){
-    return this.http.get(`${this.URL_USUARIO}/rol/${id}`,this.libService.getHeader());
    }
 
    public getRoles():Observable<Rol[]>{
