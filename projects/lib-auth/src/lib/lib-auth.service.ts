@@ -17,10 +17,6 @@ export class LibAuthService {
 
   constructor(private http:HttpClient,private jwtHelper: JwtHelperService) { }
 
-  public getMessage():string{
-    return 'test library';
-  }
-
   public getHeader(){
     return {
       headers:{
