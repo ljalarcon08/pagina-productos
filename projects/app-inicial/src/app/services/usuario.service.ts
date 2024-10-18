@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { LibAuthService } from '../../../../lib-auth/src/public-api';
 import { Observable } from 'rxjs';
 import { Usuario } from '../../../../lib-auth/src/lib/models/usuario';
+import {environment} from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 
-  private URL_USUARIO:string='http://localhost:8090/api/usuario';
+  private URL_USUARIO:string=`${environment.serverUrl}/api/usuario`;
 
   constructor(private http:HttpClient,private libService:LibAuthService) {
 

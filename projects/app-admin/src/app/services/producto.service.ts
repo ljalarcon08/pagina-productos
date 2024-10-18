@@ -3,16 +3,17 @@ import { Injectable } from '@angular/core';
 import { LibAuthService } from '../../../../lib-auth/src/public-api';
 import { Producto } from '../../../../lib-auth/src/lib/models/producto';
 import { GenericService } from '../../../../lib-auth/src/lib/services/generic.service';
+import {environment} from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService extends GenericService<Producto>{
 
-  private URLL:string='http://localhost:8090/api/producto/producto';
+  URLL:string=`${environment.serverUrl}/api/producto/producto`;
 
   constructor(private httpC:HttpClient,private libService:LibAuthService) { 
-    super(httpC,libService,'http://localhost:8090/api/producto/producto');
+    super(httpC,libService,`${environment.serverUrl}/api/producto/producto`);
   }
 
 

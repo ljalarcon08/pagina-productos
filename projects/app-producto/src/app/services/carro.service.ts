@@ -4,13 +4,14 @@ import { LibAuthService } from '../../../../lib-auth/src/public-api';
 import { HttpClient } from '@angular/common/http';
 import { GenericService } from '../../../../lib-auth/src/lib/services/generic.service';
 import { Observable } from 'rxjs';
+import {environment} from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarroService extends GenericService<Carro>{
 
-  public URLL:string='http://localhost:8090/api/producto/carro';
+  public URLL:string=`${environment.serverUrl}/api/producto/carro`;
 
   constructor(private httpC:HttpClient,private libService:LibAuthService) { 
     super(httpC,libService,'http://localhost:8090/api/producto/carro');
