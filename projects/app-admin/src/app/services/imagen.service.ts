@@ -23,7 +23,6 @@ export class ImagenService {
     this.tipo=tipo;
     this.id=id;
     this.img=img;
-    console.log(img);
   }
 
   public cerrarModal(){
@@ -42,6 +41,10 @@ export class ImagenService {
       }
     }
     return false;
+  }
+
+  public emitirNuevaImagen(imagen:string){
+    this.nuevaImagen.emit(imagen);
   }
 
 }

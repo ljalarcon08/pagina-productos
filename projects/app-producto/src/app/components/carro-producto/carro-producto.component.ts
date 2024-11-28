@@ -45,9 +45,7 @@ export class CarroProductoComponent implements OnChanges,OnInit{
 
   public cargarCarro(){
     const email=this.libService.getEmail();
-    console.log('cargaCarro');
     this.carroService.getCarroEmail(email).subscribe(resp=>{
-      console.log(resp);
       this.carro=resp;
       if(resp && resp.productos && this.producto.id){
         this.productoCarro=this.carro.productos!;
@@ -69,30 +67,6 @@ export class CarroProductoComponent implements OnChanges,OnInit{
     });
   }
 
-  /*public cargaCarro(){
-    const email=this.libService.getEmail();
-    console.log('cargaCarro');
-    this.carroService.getCarroEmail(email).subscribe(resp=>{
-      console.log(resp);
-      this.carro=resp;
-      let productoSav=this.carro.productos!;
-      console.log(this.carro.productos);  
-      this.productoCarro.forEach(producto=>{
-        let index=productoSav.findIndex(prod=>producto.id===prod.id);
-        if(index>-1){
-          console.log('index');
-          let cantidad=productoSav[index].cantidad!;
-          productoSav[index].cantidad=cantidad+1;
-        }
-        else{
-          console.log('no index');
-          productoSav.push(producto);
-        }
-      });
-      this.productoCarro=productoSav;
-    });
-  }*/
-
   public disminuir(producto:Producto){
     if(producto.cantidad!-1<1){
       this.productoCarro=this.productoCarro.filter(prod=>prod.id!==producto.id);
@@ -109,13 +83,10 @@ export class CarroProductoComponent implements OnChanges,OnInit{
   public cerrar(){
 
     if(this.libService.getToken()){
-      console.log(this.carro);
       if(this.carro.id){
-        console.log('actualizarcarro');
         this.actualizarCarro();
       }
       else{
-        console.log('crearCarro');
         this.crearCarro();
       }
     }
@@ -126,7 +97,6 @@ export class CarroProductoComponent implements OnChanges,OnInit{
 
   public actualizarCarro(){
     this.carro.productos=this.productoCarro;
-    console.log(this.carro);
     this.carroService.actualizarElement(this.carro,this.carro.id!).subscribe(resp=>{
       this.offCanvas.close(this.productoCarro);
     });

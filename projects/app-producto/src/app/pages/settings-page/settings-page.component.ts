@@ -20,10 +20,8 @@ export class SettingsPageProductoComponent implements OnInit{
 
   constructor(private activatedRoute:ActivatedRoute,private productoService:ProductoService,private catalogoService:CatalogoService,private router:Router){
     this.productos=[];
-    console.log('constructor°°°°');
     const nav=this.router.getCurrentNavigation();
     if(nav){
-      console.log(nav.extras);
       const state=nav.extras.state as {
         productos:Producto[]
       };
@@ -33,33 +31,23 @@ export class SettingsPageProductoComponent implements OnInit{
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(({catalogo})=>{
-      console.log(catalogo);
       this.productosCatalogo(catalogo);
     });
   }
 
   private productosCatalogo(catalogo:string){
     this.catalogoService.getElements().pipe(switchMap(catalogos=>{
-      console.log('switchmap');
       const catalogoSel=catalogos.find(cat=>cat.name===catalogo);
       if(catalogoSel){
-        console.log(catalogoSel);
         this.catalogos.push(catalogoSel);
         return this.productoService.getProductosByCatalogo(catalogoSel.id,0,10);  
       }
       else{
-        console.log('noooo');
         return of();
       }
     })).subscribe(resp=>{
       this.productos.push(resp);
-      console.log(this.productos)
     });
-  }
-
-
-  public cargaProductos(event:any){
-    console.log(event);
   }
 
 }

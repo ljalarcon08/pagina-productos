@@ -29,18 +29,20 @@ export class ProductoComponent implements OnInit,OnDestroy{
   public imgSubs: Subscription=Subscription.EMPTY;
   public rolAdmin=false;
   public cambiaToken:Subscription=Subscription.EMPTY;
+  public swal:any;
 
   @ViewChild(MatPaginator,{static:true})
   public paginator:MatPaginator=new MatPaginator(new MatPaginatorIntl(),ChangeDetectorRef.prototype);
   public datasource:MatTableDataSource<any>=new MatTableDataSource();
 
-  constructor(private productoService:ProductoService,private dialog:MatDialog,private catalogoService:CatalogoService,
+  constructor(private productoService:ProductoService,public dialog:MatDialog,private catalogoService:CatalogoService,
     public imagenService:ImagenService,public libService:LibAuthService){
+      this.swal=Swal;
   }
 
   ngOnInit(): void {
     this.iniciar();
-    this.cambiaToken=this.libService.cambioToken.subscribe(resp=>{
+    this.cambiaToken=this.libService.checkCambioToken$.subscribe(resp=>{
       if(resp){
         this.iniciar();
       }
@@ -66,7 +68,6 @@ export class ProductoComponent implements OnInit,OnDestroy{
 
   private cargaPagina(nroPagina:number,largo:number){
     this.productoService.getPaginaProducto(nroPagina,largo).subscribe((resp:any)=>{
-      console.log(resp);
       this.datasource=new MatTableDataSource(resp.productos);
       this.totalReg=resp.totalRegistros;
     });
@@ -89,7 +90,7 @@ export class ProductoComponent implements OnInit,OnDestroy{
         this.productoService.crearElement(producto).subscribe(resp=>{
           this.productos.push(resp);
           this.totalReg=this.totalReg+1;
-          Swal.fire('Crear Producto','Producto creado exitosamente','success');
+          this.swal.fire('Crear Producto','Producto creado exitosamente','success');
           this.cargaPagina(this.paginaActual,this.pageSize);
         });
       }
@@ -97,16 +98,13 @@ export class ProductoComponent implements OnInit,OnDestroy{
   }
 
   public actualizarProducto(producto:Producto){
-    console.log(producto);
     let productoAct={...producto};
-    console.log(productoAct);
     const dialog=this.dialog.open(ProductoDialogComponent,{data:{producto:productoAct,catalogos:this.catalogos}});
 
     dialog.afterClosed().subscribe(producto=>{
       if(producto){
-        console.log(producto);
         this.productoService.actualizarElement(producto,producto.id).subscribe(resp=>{
-          Swal.fire('Actualizar Producto','Producto actualizado exitosamente','success');
+          this.swal.fire('Actualizar Producto','Producto actualizado exitosamente','success');
           this.cargaPagina(this.paginaActual,this.pageSize);
         });
       }
@@ -114,8 +112,7 @@ export class ProductoComponent implements OnInit,OnDestroy{
   }
 
   public eliminarProducto(producto:Producto){
-    console.log(producto);
-    Swal.fire({
+    this.swal.fire({
       text:`Eliminar producto ${producto.name}?`,
       showDenyButton: true,
       confirmButtonText: 'Si',
@@ -126,10 +123,10 @@ export class ProductoComponent implements OnInit,OnDestroy{
         denyButton: 'order-3',
         title:'popTitle'
       },
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.isConfirmed) {
         this.productoService.eliminarElement(producto.id).subscribe(resp=>{  
-          Swal.fire('Eliminado','Usuario eliminado correctamente', 'success');
+          this.swal.fire('Eliminado','Usuario eliminado correctamente', 'success');
           this.productos=this.productos.filter(p=>p.id!=producto.id);
           this.datasource.data=this.productos;
           this.cargaPagina(this.paginaActual,this.pageSize);

@@ -4,7 +4,9 @@ import { Usuario } from '../../../../../lib-auth/src/lib/models/usuario';
 import { NgbOffcanvas, NgbOffcanvasConfig, NgbOffcanvasRef } from '@ng-bootstrap/ng-bootstrap';
 import { Producto } from '../../../../../lib-auth/src/lib/models/producto';
 import { LibAuthService } from '../../../../../lib-auth/src/public-api';
-import { Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
+import { CarroService } from '../../services/carro.service';
+import { Carro } from '../../../../../lib-auth/src/lib/models/carro';
 
 @Component({
   selector: 'app-nav',
@@ -18,8 +20,9 @@ export class NavComponent implements OnInit,OnDestroy{
   public offCanvas:NgbOffcanvasRef=NgbOffcanvasRef.prototype;
   public cambiaToken:Subscription=Subscription.EMPTY;
   public logged:boolean=false;
+  public carroSubs:Subscription=Subscription.EMPTY;
 
-  constructor(public config:NgbOffcanvasConfig,public offcanvasService:NgbOffcanvas,private libService:LibAuthService){
+  constructor(public config:NgbOffcanvasConfig,public offcanvasService:NgbOffcanvas,private libService:LibAuthService,private carroService:CarroService){
 
   }
 
@@ -28,8 +31,13 @@ export class NavComponent implements OnInit,OnDestroy{
       this.logged=true;
     }
 
+    this.carroSubs=this.carroService.carro$.subscribe((carro)=>{
+      if(carro.productos && carro.productos.length>=0){
+        this.productoCarro=carro.productos;
+      }
+    });
     
-    this.cambiaToken=this.libService.cambioToken.subscribe(resp=>{
+    this.cambiaToken=this.libService.checkCambioToken$.subscribe(resp=>{
       if(resp){
         if(this.libService.getToken()){
           this.logged=true;
@@ -42,6 +50,7 @@ export class NavComponent implements OnInit,OnDestroy{
 
   ngOnDestroy(): void {
     this.cambiaToken.unsubscribe();
+    this.carroSubs.unsubscribe();
   }
 
 
