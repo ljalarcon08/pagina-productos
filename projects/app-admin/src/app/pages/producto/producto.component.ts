@@ -42,7 +42,7 @@ export class ProductoComponent implements OnInit,OnDestroy{
 
   ngOnInit(): void {
     this.iniciar();
-    this.cambiaToken=this.libService.cambioToken.subscribe(resp=>{
+    this.cambiaToken=this.libService.checkCambioToken$.subscribe(resp=>{
       if(resp){
         this.iniciar();
       }

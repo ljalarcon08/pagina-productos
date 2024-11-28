@@ -35,6 +35,7 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
   });
   catalogosAnt:Catalogo[]=[];
   buscando:boolean=false;
+  public carroO:Subscription=Subscription.EMPTY;
   
   constructor(public config:NgbOffcanvasConfig,public offcanvasService:NgbOffcanvas,
     public libService:LibAuthService,private carroService:CarroService,private router:Router,private formBuilder:FormBuilder,private productoService:ProductoService
@@ -44,7 +45,12 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
   }
 
   ngOnInit(): void {
-    this.cambiaToken=this.libService.cambioToken.subscribe(resp=>{
+    this.carroO=this.carroService.carro$.subscribe((carro:Carro)=>{
+      if(carro.productos){
+        this.productoCarro=carro.productos!;
+      }
+    });
+    this.cambiaToken=this.libService.checkCambioToken$.subscribe(resp=>{
       if(resp){
         if(this.libService.getToken()){
           this.loginOk=true;
@@ -52,6 +58,7 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
         }else{
           this.loginOk=false;
           this.productoCarro=[];
+          this.actualizaCarroLocal();
         }
       }
     });
@@ -75,6 +82,7 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
 
   ngOnDestroy(): void {
     this.cambiaToken.unsubscribe();
+    this.carroO.unsubscribe();
   }
 
   public guardarCarro(){
@@ -96,6 +104,7 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
     }))
     .subscribe(resp=>{
       this.productoCarro=resp.productos!;
+      this.actualizaCarroLocal();
     });
   }
 
@@ -112,11 +121,13 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
       }
     });
     carro.productos=productoSav;
+    this.actualizaCarroLocal();
     return this.carroService.actualizarElement(carro,carro.id!);
   }
 
   public creaCarro(carro:Carro,email:string){
     carro=new Carro(email,undefined,this.productoCarro);
+    this.actualizaCarroLocal();
     return this.carroService.crearElement(carro);
   }
 
@@ -138,10 +149,12 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
   public abrir(content: TemplateRef<any>,producto:Producto) {
     this.productoSeleccionado=producto;
     this.agregarProductoCarro(producto);
+    this.actualizaCarroLocal();
 		this.offCanvas=this.offcanvasService.open(content);
     this.offCanvas.closed.subscribe(resp=>{
       if(resp){
         this.productoCarro=resp;
+        this.actualizaCarroLocal();
       }
     });
   }
@@ -161,6 +174,13 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
         this.productoCarro.push(producto);
       }
     }
+  }
+
+  public actualizaCarroLocal(){
+    const email=this.libService.getEmail();
+    let carro=new Carro(email);
+    carro.productos=this.productoCarro;
+    this.carroService.addCarroLocal(carro);
   }
 
   public cerrar(){

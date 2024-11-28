@@ -40,7 +40,7 @@ export class CatalogoComponent implements OnInit,OnDestroy{
 
   ngOnInit(): void {
     this.cargaCatalogos();
-    this.cambiaToken=this.libService.cambioToken.subscribe(resp=>{
+    this.cambiaToken=this.libService.checkCambioToken$.subscribe(resp=>{
       if(resp){
         this.cargaCatalogos();
       }

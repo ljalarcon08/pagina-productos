@@ -8,7 +8,7 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" routerLink='/producto/home' routerLinkActive="router-link-active"><mat-icon>shopping_bag</mat-icon> Producto</a>
           </li>
-          <li *ngIf="logged" class="nav-item">
+          <li *ngIf="productoCarro.length>0" class="nav-item">
             <a class="nav-link pointer" (click)="abrirCarro(content)"><mat-icon>shopping_cart_checkout</mat-icon><span class="navTitle">Carro</span></a>
           </li>
         </ul>

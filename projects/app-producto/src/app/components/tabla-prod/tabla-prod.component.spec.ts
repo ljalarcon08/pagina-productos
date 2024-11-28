@@ -77,7 +77,8 @@ describe('TablaProdComponent', () => {
     carroService.getCarroEmail.and.nextWith(carr);
     carroService.actualizarElement.and.nextWith(carr);
     component.productoCarro=productos;
-    component.libService.cambioToken.emit('ok');
+    //component.libService.cambioToken.emit('ok');
+    fixture.detectChanges();
     expect(component.productoCarro.length).toBe(2);
   });
   it('guardaCarro2',()=>{
@@ -89,7 +90,8 @@ describe('TablaProdComponent', () => {
     carroService.getCarroEmail.and.nextWith(carr);
     carroService.actualizarElement.and.nextWith(carr);
     component.productoCarro=productos;
-    component.libService.cambioToken.emit('ok');
+    //component.libService.cambioToken.emit('ok');
+    fixture.detectChanges();
     expect(component.productoCarro.length).toBe(2);
   });
   it('guardaCarro3',()=>{
@@ -101,7 +103,8 @@ describe('TablaProdComponent', () => {
     carroService.getCarroEmail.and.nextWith(carr);
     carroService.crearElement.and.nextWith(carro);
     component.productoCarro=productos;
-    component.libService.cambioToken.emit('ok');
+    //component.libService.cambioToken.emit('ok');
+    fixture.detectChanges();
     expect(component.productoCarro.length).toBe(2);
   });
   it('revisaTipoImagen',()=>{

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Usuario } from './models/usuario';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
@@ -13,7 +13,8 @@ export class LibAuthService {
   public URL:string='http://localhost:8090/auth';
   public email:string='';
   public decoder:JwtHelperService=new JwtHelperService();
-  public cambioToken: EventEmitter<string> = new EventEmitter<string>();
+  private checkCambioToken=new BehaviorSubject<Boolean>(false);
+  public checkCambioToken$=this.checkCambioToken.asObservable();
 
   constructor(private http:HttpClient,private jwtHelper: JwtHelperService) { }
 
@@ -30,7 +31,7 @@ export class LibAuthService {
       .pipe(tap((resp:any)=>{
         localStorage.setItem('token',resp.jwt);
         this.email=username;
-        this.cambioToken.emit('true');
+        this.checkCambioToken.next(true);
       }
     ));
   }
@@ -64,7 +65,7 @@ public logout(){
 
  public quitarToken(){
   localStorage.removeItem('token');
-  this.cambioToken.emit('true');
+  this.checkCambioToken.next(true);
  }
 
  public tieneRol(rol:string):boolean{

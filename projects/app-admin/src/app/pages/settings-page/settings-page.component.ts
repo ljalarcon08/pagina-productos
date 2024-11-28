@@ -36,7 +36,7 @@ export class SettingsPageAdminComponent implements OnInit{
   }
   ngOnInit(): void {
     this.cargaRoles();
-    this.cambiaToken=this.libService.cambioToken.subscribe(resp=>{
+    this.cambiaToken=this.libService.checkCambioToken$.subscribe(resp=>{
       if(resp){
         this.cargaRoles();
       }

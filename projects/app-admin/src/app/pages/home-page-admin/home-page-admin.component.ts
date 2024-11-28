@@ -43,7 +43,7 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
     this.iniciar();
     this.imgSubs=this.imagenService.nuevaImagen.subscribe(img=>this.cargarPagina(this.paginaActual,this.pageSize));
     
-    this.cambioToken=this.libService.cambioToken.subscribe(resp=>{
+    this.cambioToken=this.libService.checkCambioToken$.subscribe(resp=>{
       if(resp){
         this.iniciar();
       }

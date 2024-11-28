@@ -27,7 +27,7 @@ export class NavComponent implements OnInit,OnDestroy,OnChanges{
     this.cambioToken.unsubscribe;
   }
   ngOnInit(): void {
-    this.cambioToken=this.libService.cambioToken.subscribe(resp=>this.rolAdmin=this.libService.tieneRol('ROLE_ADMIN'));
+    this.cambioToken=this.libService.checkCambioToken$.subscribe(resp=>this.rolAdmin=this.libService.tieneRol('ROLE_ADMIN'));
   }
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
