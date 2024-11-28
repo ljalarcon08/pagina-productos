@@ -12,8 +12,10 @@ export class ImagenModalComponent {
   public imagen:string='';
   public imgTemp:any=null;
   public imgCheck:string='';
+  public swal:any;
 
   constructor(public imagenService:ImagenService,private usuarioService:UsuarioService){
+    this.swal=Swal;
   }
 
   public cerrarModal(){
@@ -23,11 +25,9 @@ export class ImagenModalComponent {
   }
 
   public revisarImagen(event:any){
-    console.log('revisarImagen');
     this.imgCheck=event.target.value;
     if(this.imagenService.revisaTipoImagen(event.target.value)){
       this.imgTemp=this.imgCheck;
-      console.log(event.target.value);
     }
     else{
       event.target.value='';
@@ -35,16 +35,11 @@ export class ImagenModalComponent {
   }
 
   public cambiarImagen(){
-    console.log('cambiarImagen');
-    console.log(this.imgCheck);
     this.imgTemp=this.imgCheck;
     this.imagen=this.imgCheck;
-    console.log(this.imagen);
   }
 
   public subirImagen(){
-    console.log('subir imagen');
-    console.log(this.imagen);
     const id=this.imagenService.id;
     const tipo=this.imagenService.tipo;
     if(tipo==='usuario'){
@@ -60,8 +55,9 @@ export class ImagenModalComponent {
   }
 
   private respuestaCarga(resp:any){
-    this.imagenService.nuevaImagen.emit(this.imagen);
+    //this.imagenService.nuevaImagen.emit(this.imagen);
+    this.imagenService.emitirNuevaImagen(this.imagen);
     this.cerrarModal();
-    Swal.fire('Actualizar Imagen','Imagen actualizada correctamente','success');
+    this.swal.fire('Actualizar Imagen','Imagen actualizada correctamente','success');
   }
 }

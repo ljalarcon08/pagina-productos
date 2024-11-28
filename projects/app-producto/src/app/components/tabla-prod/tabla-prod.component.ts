@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { Producto } from '../../../../../lib-auth/src/lib/models/producto';
 import { Catalogo } from '../../../../../lib-auth/src/lib/models/catalogo';
 import { NgbOffcanvas, NgbOffcanvasConfig, NgbOffcanvasRef } from '@ng-bootstrap/ng-bootstrap';
@@ -23,6 +23,9 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
   @Input() productos:Producto[][];
   @Input() catalogos:Catalogo[]=[];
   @Input() isCatPage:boolean=false;
+
+  @ViewChild('content', { read: TemplateRef, static: true })
+  public templateRef: TemplateRef<any>=TemplateRef.prototype;
   public offCanvas:NgbOffcanvasRef=NgbOffcanvasRef.prototype;
   public productoSeleccionado:Producto=Producto.prototype;
   public cambiaToken:Subscription=Subscription.EMPTY;
@@ -32,17 +35,22 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
   });
   catalogosAnt:Catalogo[]=[];
   buscando:boolean=false;
+  public carroO:Subscription=Subscription.EMPTY;
   
   constructor(public config:NgbOffcanvasConfig,public offcanvasService:NgbOffcanvas,
-    private libService:LibAuthService,private carroService:CarroService,private router:Router,private formBuilder:FormBuilder,private productoService:ProductoService
+    public libService:LibAuthService,private carroService:CarroService,private router:Router,private formBuilder:FormBuilder,private productoService:ProductoService
   ){
     this.productos=[];
     config.backdrop='static';
   }
 
   ngOnInit(): void {
-    this.cambiaToken=this.libService.cambioToken.subscribe(resp=>{
-      console.log('cambia TOK tabla prod');
+    this.carroO=this.carroService.carro$.subscribe((carro:Carro)=>{
+      if(carro.productos){
+        this.productoCarro=carro.productos!;
+      }
+    });
+    this.cambiaToken=this.libService.checkCambioToken$.subscribe(resp=>{
       if(resp){
         if(this.libService.getToken()){
           this.loginOk=true;
@@ -50,6 +58,7 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
         }else{
           this.loginOk=false;
           this.productoCarro=[];
+          this.actualizaCarroLocal();
         }
       }
     });
@@ -61,12 +70,10 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
     }
     if(changes['productos']){
       this.productos=changes['productos'].currentValue;
-      console.log(this.productos);
     }
     if(changes['catalogos']){
       this.catalogos=changes['catalogos'].currentValue;
       this.catalogosAnt=[...this.catalogos];
-      console.log(this.catalogos);
     }
     if(changes['isCatPage']){
       this.isCatPage=changes['isCatPage'].currentValue;
@@ -74,8 +81,8 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
   }
 
   ngOnDestroy(): void {
-    console.log('on destroy');
     this.cambiaToken.unsubscribe();
+    this.carroO.unsubscribe();
   }
 
   public guardarCarro(){
@@ -86,7 +93,6 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
 
   public cargaCarro(){
     const email=this.libService.getEmail();
-    console.log('cargaCarro');
     this.carroService.getCarroEmail(email)
     .pipe(switchMap(carro=>{
       if(carro && carro.productos){
@@ -98,34 +104,33 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
     }))
     .subscribe(resp=>{
       this.productoCarro=resp.productos!;
+      this.actualizaCarroLocal();
     });
   }
 
   public actualizaCarro(carro:Carro){
     let productoSav=carro.productos!;
-    console.log(carro.productos);  
-    console.log(this.productoCarro);
     this.productoCarro.forEach(producto=>{
       let index=productoSav.findIndex(prod=>producto.id===prod.id);
-      console.log(index);
       if(index>-1){
-        console.log('index');
         let cantidad=productoSav[index].cantidad!;
         productoSav[index].cantidad=cantidad+1;
       }
       else{
-        console.log('no index');
         productoSav.push(producto);
       }
     });
     carro.productos=productoSav;
+    this.actualizaCarroLocal();
     return this.carroService.actualizarElement(carro,carro.id!);
   }
 
   public creaCarro(carro:Carro,email:string){
     carro=new Carro(email,undefined,this.productoCarro);
+    this.actualizaCarroLocal();
     return this.carroService.crearElement(carro);
   }
+
 
   public revisaTipoImagen(imagen:string){
     if(imagen){
@@ -143,18 +148,13 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
 
   public abrir(content: TemplateRef<any>,producto:Producto) {
     this.productoSeleccionado=producto;
-    console.log(content);
     this.agregarProductoCarro(producto);
+    this.actualizaCarroLocal();
 		this.offCanvas=this.offcanvasService.open(content);
     this.offCanvas.closed.subscribe(resp=>{
-      console.log('respuesta cierre canvas');
-      console.log(resp);
       if(resp){
-        console.log(resp);
         this.productoCarro=resp;
-      }
-      else{
-        console.log('sin datos');
+        this.actualizaCarroLocal();
       }
     });
   }
@@ -176,8 +176,14 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
     }
   }
 
+  public actualizaCarroLocal(){
+    const email=this.libService.getEmail();
+    let carro=new Carro(email);
+    carro.productos=this.productoCarro;
+    this.carroService.addCarroLocal(carro);
+  }
+
   public cerrar(){
-    console.log('cerrar');
     this.offCanvas.dismiss();
   }
 
@@ -195,12 +201,10 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
 
 
   public buscar(){
-    console.log('buscar');
     const textoControl=this.buscarForm.get('texto');
     if(textoControl){
       const textoBuscado=textoControl.value;
       if(textoBuscado){
-        console.log(textoBuscado);
         this.cargarProductoPorNombre(textoBuscado);
       }
       else{
@@ -208,7 +212,7 @@ export class TablaProdComponent implements OnChanges,OnInit,OnDestroy{
         this.cargaProductosPorCatalogo();
       }
 
-    } 
+    }
   }
 
   public limpiarBusqueda(){

@@ -17,7 +17,7 @@ export class NavComponent implements OnInit,OnDestroy{
 
   ngOnInit(): void {
     this.rolAdmin=this.libService.tieneRol('ROLE_ADMIN');
-    this.cambioToken=this.libService.cambioToken.subscribe(resp=>{
+    this.cambioToken=this.libService.checkCambioToken$.subscribe(resp=>{
       if(resp){
         this.rolAdmin=this.libService.tieneRol('ROLE_ADMIN');
       }

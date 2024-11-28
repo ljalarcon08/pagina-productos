@@ -36,8 +36,6 @@ export class InicioSesionComponent implements OnChanges{
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes inicion sesion');
-    console.log(changes);
     if(changes['offCanvas']){
       this.offCanvas=changes['offCanvas'].currentValue;
     }
@@ -56,7 +54,6 @@ export class InicioSesionComponent implements OnChanges{
       .pipe(switchMap(resp=>this.usuarioService.getUsuarioByEmail(email))) 
       .subscribe(resp=>{
         this.usuario=resp[0];
-        console.log(this.usuario);
         Swal.fire('Sesion','Sesión iniciada correctamente','success');
         this.cerrar();
       });
@@ -80,7 +77,6 @@ export class InicioSesionComponent implements OnChanges{
 
 
   public abrirRegistrar(){
-    console.log('abrir registrar');
     this.registrar=true;
     
   }
@@ -100,13 +96,11 @@ export class InicioSesionComponent implements OnChanges{
   public signUp(){
     this.submitF=true;
     if(!this.signUpForm.invalid){
-      console.log('form valido');
       const name:any=this.signUpForm.get('nombre')!.value;
       const email:any=this.signUpForm.get('email')!.value;
       const password:any=this.signUpForm.get('password')!.value;
       const usuario=new Usuario(1,name,email,'',password,false);
       this.libAuthService.signUp(usuario).subscribe(resp=>{
-        console.log(resp);
         this.usuario=resp;
         Swal.fire('Estado Registro','Registro creado exitosamente','success');
         this.submitF=false;

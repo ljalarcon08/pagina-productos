@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Inject, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ export class ImagenService {
   public id:string='';
   public img:string='';
 
+  @Injectable()
   public nuevaImagen: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
@@ -23,7 +24,6 @@ export class ImagenService {
     this.tipo=tipo;
     this.id=id;
     this.img=img;
-    console.log(img);
   }
 
   public cerrarModal(){
@@ -42,5 +42,9 @@ export class ImagenService {
       }
     }
     return false;
+  }
+
+  public emitirNuevaImagen(imagen:string){
+    this.nuevaImagen.emit(imagen);
   }
 }

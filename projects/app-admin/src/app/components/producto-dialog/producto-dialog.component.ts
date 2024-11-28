@@ -1,9 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CatalogoService } from '../../services/catalogo.service';
 import { Producto } from '../../../../../lib-auth/src/lib/models/producto';
 import { Catalogo } from '../../../../../lib-auth/src/lib/models/catalogo';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-producto-dialog',
@@ -12,16 +11,16 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class ProductoDialogComponent implements OnInit{
 
-  public productoForm=this.formBuilder.group({
-    nombre:['',[Validators.required]],
-    precio:[0,[Validators.required,Validators.min(100)]],
-    marca:['',[Validators.required]],
-    catalogo:['',[Validators.required]]
-  });
+  public productoForm:FormGroup;
 
-  constructor(public dialog:MatDialogRef<ProductoDialogComponent>,private catalogoService:CatalogoService,
+  constructor(public dialog:MatDialogRef<ProductoDialogComponent>,
   @Inject(MAT_DIALOG_DATA) public data:{producto:Producto,catalogos:Catalogo[]},private formBuilder:FormBuilder){
-
+    this.productoForm=this.formBuilder.group({
+      nombre:['',[Validators.required]],
+      precio:[0,[Validators.required,Validators.min(100)]],
+      marca:['',[Validators.required]],
+      catalogo:['',[Validators.required]]
+    });
   }
 
   ngOnInit(): void {
@@ -47,7 +46,6 @@ export class ProductoDialogComponent implements OnInit{
       }
       this.data.producto.idCatalogo=this.productoForm.get('catalogo')!.value!;
     }
-    console.log(this.data.producto);
 
     return this.data.producto;
   }

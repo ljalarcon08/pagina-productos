@@ -31,18 +31,19 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
   @ViewChild(MatPaginator,{static:true}) 
   public paginator: MatPaginator=new MatPaginator(new MatPaginatorIntl(),ChangeDetectorRef.prototype);
   public dataSource: MatTableDataSource<any>=new MatTableDataSource();
+  public swal:any;
 
 
 
-  constructor(private usuarioService:UsuarioService,private dialog:MatDialog,public imagenService:ImagenService,private libService:LibAuthService){
-
+  constructor(private usuarioService:UsuarioService,public dialog:MatDialog,public imagenService:ImagenService,public libService:LibAuthService){
+    this.swal=Swal;
   }
 
   ngOnInit(): void {     
     this.iniciar();
     this.imgSubs=this.imagenService.nuevaImagen.subscribe(img=>this.cargarPagina(this.paginaActual,this.pageSize));
     
-    this.cambioToken=this.libService.cambioToken.subscribe(resp=>{
+    this.cambioToken=this.libService.checkCambioToken$.subscribe(resp=>{
       if(resp){
         this.iniciar();
       }
@@ -72,7 +73,6 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
   }
 
   public cambiaPagina(evento:any){
-    console.log(evento);
     this.paginaActual=evento.pageIndex;
     this.pageSize=evento.pageSize;
     this.cargarPagina(evento.pageIndex,evento.pageSize);
@@ -85,9 +85,8 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
 
     dialog.afterClosed().subscribe(usuario=>{
       if(usuario){
-        console.log(usuario);
         this.usuarioService.actualizarUsuario(usuario).subscribe(resp=>{
-          Swal.fire('Actualizacion','Usuario actualizado correctamente','success');
+          this.swal.fire('Actualizacion','Usuario actualizado correctamente','success');
           this.cargarPagina(this.paginaActual,this.pageSize);
         });
       }
@@ -95,9 +94,8 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
   } 
 
   public eliminarUsuario(usuario:Usuario){
-    console.log(usuario);
 
-    Swal.fire({
+    this.swal.fire({
       text:`Eliminar usuario ${usuario.name}?`,
       showDenyButton: true,
       confirmButtonText: 'Si',
@@ -108,13 +106,12 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
         denyButton: 'order-3',
         title:'popTitle'
       },
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.isConfirmed) {
-        this.usuarioService.eliminarUsuario(usuario.id).subscribe(resp=>{  
-          Swal.fire('Eliminado','Usuario eliminado correctamente', 'success');
+        this.usuarioService.eliminarUsuario(usuario.id).subscribe(resp=>{
+          this.swal.fire('Eliminado','Usuario eliminado correctamente', 'success');
           this.usuarios=this.usuarios.filter(u=>u.id!=usuario.id);
           this.dataSource.data=this.usuarios;
-          console.log(this.usuarios);
         });
         
       }
@@ -122,9 +119,6 @@ export class HomePageAdminComponent implements OnInit,OnDestroy{
   }
 
   public abrirModal(usuario:Usuario){
-    console.log('AbrirModal');
-    console.log(usuario);
-    console.log(usuario.imagen);
     this.imagenService.abrirModal('usuario',usuario.id+'',usuario.imagen);
   }
 

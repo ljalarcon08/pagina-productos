@@ -31,15 +31,16 @@ export class CatalogoComponent implements OnInit,OnDestroy{
   public imgSubs: Subscription=Subscription.EMPTY;
   public rolAdmin=false;
   public cambiaToken:Subscription=Subscription.EMPTY;
+  public swal:any;
 
-  constructor(private catalogoService:CatalogoService,private dialog:MatDialog,public imagenService:ImagenService,
+  constructor(private catalogoService:CatalogoService,public dialog:MatDialog,public imagenService:ImagenService,
     public libService:LibAuthService){
-
+      this.swal=Swal;
   }
 
   ngOnInit(): void {
     this.cargaCatalogos();
-    this.cambiaToken=this.libService.cambioToken.subscribe(resp=>{
+    this.cambiaToken=this.libService.checkCambioToken$.subscribe(resp=>{
       if(resp){
         this.cargaCatalogos();
       }
@@ -66,13 +67,12 @@ export class CatalogoComponent implements OnInit,OnDestroy{
   public crearCatalogo(){
     let catalogo=new Catalogo('','','');
     const dialog=this.dialog.open(CatalogoDialogComponent,{data:catalogo});
-
     dialog.afterClosed().subscribe(catalogo=>{
       if(catalogo){
         catalogo.id=null;
         this.catalogoService.crearElement(catalogo).subscribe(resp=>{
           this.cargaCatalogos();
-          Swal.fire('Crear catalogo',`catalogo ${catalogo.name} creado correctamente`,'success');
+          this.swal.fire('Crear catalogo',`catalogo ${catalogo.name} creado correctamente`,'success');
         });
       }
     });
@@ -80,7 +80,6 @@ export class CatalogoComponent implements OnInit,OnDestroy{
   }
 
   public actualizarCatalogo(catalogo:Catalogo){
-    console.log('act');
     let catalogoAct={...catalogo};
     const dialog=this.dialog.open(CatalogoDialogComponent,{data:catalogoAct});
 
@@ -88,14 +87,13 @@ export class CatalogoComponent implements OnInit,OnDestroy{
       if(cat){
         this.catalogoService.actualizarElement(cat,cat.id).subscribe(resp=>{
           this.cargaCatalogos();
-          Swal.fire('Actualizar catalogo',`Catalogo ${cat.name} actualizado correctamente`,'success');
+          this.swal.fire('Actualizar catalogo',`Catalogo ${cat.name} actualizado correctamente`,'success');
         });
       }
     });
   }
 
   public eliminarCatalogo(catalogo:Catalogo){
-    console.log('elm');
 
     Swal.fire({
       text:`Eliminar rol ${catalogo.name}?`,
@@ -111,10 +109,9 @@ export class CatalogoComponent implements OnInit,OnDestroy{
     }).then((result) => {
       if (result.isConfirmed) {
         this.catalogoService.eliminarElement(catalogo.id).subscribe(resp=>{  
-          Swal.fire('Eliminado','Catalogo eliminado correctamente', 'success');
           this.catalogos=this.catalogos.filter(r=>r.id!=catalogo.id);
           this.dataSource.data=this.catalogos;
-          console.log(this.catalogos);
+          this.swal.fire('Eliminado','Catalogo eliminado correctamente', 'success');
         });
         
       }
